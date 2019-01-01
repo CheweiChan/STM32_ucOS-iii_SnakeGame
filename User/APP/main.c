@@ -148,12 +148,14 @@ static  void  AppTaskStart (void *p_arg)
  //任务死循环
 	while (DEF_TRUE) 
 	{                                        
-			//LED2_TOGGLE ;
-		  	printf("cpu使用率:%.2f%%,%d\n,",((float)OSStatTaskCPUUsage/100),cpu_clk_freq);
-		 //   printf ( "最大調度時間:%d us\r\n",  OSSchedLockTimeMax / ( cpu_clk_freq / 1000000 ) );		
-  		//延时，所有任务函数的死循环内都应有至少1ms延时
-		  //特别是高优先级的任务，若无延时，其它低优先级任务可能会无机会执行
-			OSTimeDly(1000u,OS_OPT_TIME_DLY,&os_err);
+	    //LED2_TOGGLE ;
+	    printf("cpu使用率:%.2f%%,%d\n,",((float)OSStatTaskCPUUsage/100),cpu_clk_freq);
+	
+  		/*
+                  延时，所有任务函数的死循环内都应有至少1ms延时
+		  特别是高优先级的任务，若无延时，其它低优先级任务可能会无机会执行
+                */
+	    OSTimeDly(1000u,OS_OPT_TIME_DLY,&os_err);
 	}	
 		
 }
