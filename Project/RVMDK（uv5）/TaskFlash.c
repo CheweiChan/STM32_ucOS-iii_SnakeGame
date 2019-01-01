@@ -42,7 +42,7 @@ void Delay(__IO uint32_t nCount);
 TestStatus Buffercmp(uint8_t* pBuffer1,uint8_t* pBuffer2, uint16_t BufferLength);
 
 void Test_flash(void)
-{ 	u8 temp;
+{ 	
 
 	printf("\r\n test flash \r\n");
 	

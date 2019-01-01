@@ -543,16 +543,6 @@
               <FilePath>..\..\User\APP\main.c</FilePath>
             </File>
             <File>
-              <FileName>TouchApp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\APP\TouchApp.c</FilePath>
-            </File>
-            <File>
-              <FileName>FramewinDLG.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\APP\FramewinDLG.c</FilePath>
-            </File>
-            <File>
               <FileName>TaskApp.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\TaskApp.c</FilePath>
@@ -561,6 +551,11 @@
               <FileName>TaskFlash.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\TaskFlash.c</FilePath>
+            </File>
+            <File>
+              <FileName>SnakeGameApp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SnakeGameApp.c</FilePath>
             </File>
           </Files>
         </Group>
