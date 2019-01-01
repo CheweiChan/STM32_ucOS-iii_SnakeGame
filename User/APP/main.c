@@ -1,18 +1,12 @@
 /**
   ******************************************************************************
   * @file    main.c
-  * @author  fire
+  * @author  chewei
   * @version V1.0
-  * @date    2015-xx-xx
-  * @brief   emwin + ucosIII 基础显示例程
+  * @date    2018-12-10
+  * @brief   emwin + ucosIII 
   ******************************************************************************
-  * @attention
-  *
   * 实验平台:秉火  STM32 F103 开发板 
-  * 论坛    :http://www.firebbs.cn
-  * 淘宝    :http://firestm32.taobao.com
-  *
-  ******************************************************************************
   */
 
 
@@ -54,12 +48,12 @@ CPU_INT32U stoptim_cnt=0;
 *                                              栈空间STACKS
 *********************************************************************************************************
 */
-__align(8) static     CPU_STK  AppTaskStartStk[APP_TASK_START_STK_SIZE];
+__align(8) static  CPU_STK  AppTaskStartStk[APP_TASK_START_STK_SIZE];
 __align(8) static  CPU_STK  AppTaskKeyScanStk[APP_TASK_KEY_SCAN_STK_SIZE];
 __align(8) static  CPU_STK  AppTaskGUIBaseStk[APP_TASK_GUI_BASE_STK_SIZE];
 __align(8) static  CPU_STK  AppTaskTimerBaseStk[APP_TASK_GUI_BASE_STK_SIZE];
-__align(8)  static  CPU_STK  AppTaskKey1Stk [ 128 ];
-__align(8)  static  CPU_STK  AppTaskKey2Stk [ 128 ];
+__align(8) static  CPU_STK  AppTaskKey1Stk [ 128 ];
+__align(8) static  CPU_STK  AppTaskKey2Stk [ 128 ];
 
 
 /*
@@ -71,15 +65,13 @@ __align(8)  static  CPU_STK  AppTaskKey2Stk [ 128 ];
 static  void  AppTaskStart  (void *p_arg);
 static  void  BSPTaskCreate (void);
 static  void  AppTaskCreate(void);
-void  AppTaskTouchScan(void );
-void  AppTaskTmr_ ( void * p_arg );
+void AppTaskTouchScan(void );
+void AppTaskTmr_ ( void * p_arg );
 void TmrCallback (OS_TMR *p_tmr, void *p_arg);
-void  AppTaskKey1 ( void * p_arg );
-void  AppTaskKey2 ( void * p_arg );
+void AppTaskKey1 ( void * p_arg );
+void AppTaskKey2 ( void * p_arg );
 void Test_flash(void);
-
 extern  void Snack_Task(void);
-extern WM_HWIN CreateFramewin(void);
 /*
 *********************************************************************************************************
 *                                            
@@ -176,41 +168,41 @@ static  void  BSPTaskCreate (void)
 	OS_ERR  os_err;
 
 		//创建扫描任务
-	OSTaskCreate((OS_TCB     *)&AppTaskKeyScanTCB,             // 任务TCB                               
-							 (CPU_CHAR   *)"Key Scan", 									// 任务名称                             
-							 (OS_TASK_PTR ) AppTaskTouchScan,									  // 任务函数指针                                
-							 (void       *) 0,																	// 可选输入数据
-							 (OS_PRIO     ) APP_TASK_KEY_SCAN_PRIO,					// 优先级
-							 (CPU_STK    *)&AppTaskKeyScanStk[0],							// 任务栈基地址
-							 (CPU_STK_SIZE) APP_TASK_KEY_SCAN_STK_SIZE / 10,				// 栈“水印”限制
-							 (CPU_STK_SIZE) APP_TASK_KEY_SCAN_STK_SIZE,        		//栈大小
-							 (OS_MSG_QTY  ) 0u,
-							 (OS_TICK     ) 0u,
-							 (void       *) 0,
-							 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),//可选配置
-							 (OS_ERR     *)&os_err);															//错误代码
+    OSTaskCreate((OS_TCB     *)&AppTaskKeyScanTCB,             // 任务TCB                               
+		 (CPU_CHAR   *)"Key Scan", 										// 任务名称                             
+	         (OS_TASK_PTR ) AppTaskTouchScan,									// 任务函数指针                                
+		 (void       *) 0,						// 可选输入数据
+		 (OS_PRIO     ) APP_TASK_KEY_SCAN_PRIO,				// 优先级
+		 (CPU_STK    *)&AppTaskKeyScanStk[0],				// 任务栈基地址
+		 (CPU_STK_SIZE) APP_TASK_KEY_SCAN_STK_SIZE / 10,	 	// 栈“水印”限制
+		 (CPU_STK_SIZE) APP_TASK_KEY_SCAN_STK_SIZE,        		//栈大小
+		 (OS_MSG_QTY  ) 0u,
+		 (OS_TICK     ) 0u,
+		 (void       *) 0,
+		 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),	//可选配置
+		 (OS_ERR     *)&os_err);					//错误代码
 
 
     OSTaskCreate((OS_TCB     *)&AppTaskTimerBaseTCB,             // 任务TCB                               
-                             (CPU_CHAR   *)"GUI Base Test",                                     // 任务名称                             
-                             (OS_TASK_PTR ) AppTaskTmr_,                                   // 任务函数指针                                
-                             (void       *) 0,                                                                  // 可选输入数据
-                             (OS_PRIO     ) 2,                  // 优先级
-                             (CPU_STK    *)&AppTaskTimerBaseStk[0],                         // 任务栈基地址
-                             (CPU_STK_SIZE) 128 / 10,               // 栈“水印”限制
-                             (CPU_STK_SIZE) 128,                //栈大小
-                             (OS_MSG_QTY  ) 0u,
-                             (OS_TICK     ) 0u,
-                             (void       *) 0,
-                             (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),//可选配置
-                             (OS_ERR     *)&os_err);    
+                 (CPU_CHAR   *)"GUI Base Test",                                // 任务名称                             
+                 (OS_TASK_PTR ) AppTaskTmr_,                                   // 任务函数指针                                
+                 (void       *) 0,                                             // 可选输入数据
+                 (OS_PRIO     ) 2,                  // 优先级
+                 (CPU_STK    *)&AppTaskTimerBaseStk[0],                        // 任务栈基地址
+                 (CPU_STK_SIZE) 128 / 10,               // 栈“水印”限制
+                 (CPU_STK_SIZE) 128,                //栈大小
+                 (OS_MSG_QTY  ) 0u,
+                 (OS_TICK     ) 0u,
+                 (void       *) 0,
+                 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),//可选配置
+                 (OS_ERR     *)&os_err);    
 
 
  /* 创建多值信号量 SemOfKey */
     OSSemCreate((OS_SEM      *)&SemOfKey,    //指向信号量变量的指针
-            (CPU_CHAR    *)"SemOfKey",    //信号量的名字
-            (OS_SEM_CTR   )5,             //表示现有资源数目
-            (OS_ERR      *)&os_err);         //错误类型
+                (CPU_CHAR    *)"SemOfKey",    //信号量的名字
+                (OS_SEM_CTR   )5,             //表示现有资源数目
+                (OS_ERR      *)&os_err);         //错误类型
                           
           
 
