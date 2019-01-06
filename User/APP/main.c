@@ -125,9 +125,9 @@ static  void  AppTaskStart (void *p_arg)
 	BSP_Init();  //初始化BSP  		
 	CPU_Init();	//初始化CPU
 	BSP_Tick_Init();//初始化systick
-  Mem_Init(); 	//初始化存储管理器                                     
+    Mem_Init(); 	//初始化存储管理器                                     
 	Key_Initial();
-  Test_flash();
+    Test_flash();
 
 #if OS_CFG_STAT_TASK_EN > 0u
     OSStatTaskCPUUsageInit(&os_err); //计算无任务时CPU使用率                            
