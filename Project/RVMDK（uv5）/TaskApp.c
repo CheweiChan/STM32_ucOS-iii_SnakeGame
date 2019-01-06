@@ -49,8 +49,7 @@ void  AppTaskTmr_ ( void * p_arg )
 
 
 /*
-/*show the system time of game stop/
-
+show the system time of game stop
 */
 void TmrCallback (OS_TMR *p_tmr, void *p_arg) //软件定时器MyTmr的回调函数
 {
@@ -84,7 +83,6 @@ press key1 to stop the game
   void  AppTaskKey1 ( void * p_arg )
 {
 	OS_ERR      err;
-	OS_SEM_CTR  ctr;
 	CPU_SR_ALLOC();  //使用到临界段（在关/开中断时）时必需该宏，该宏声明和定义一个局部变
 									 //量，用于保存关中断前的 CPU 状态寄存器 SR（临界段关中断只需保存SR）
 									//，开中断时将该值还原。	
@@ -96,6 +94,7 @@ press key1 to stop the game
 		if( Key_Scan ( macKEY1_GPIO_PORT, macKEY1_GPIO_PIN, 1, & ucKey1Press ) ) //如果KEY1被单击
 		{
 #if 0
+			OS_SEM_CTR  ctr;
 			ctr = OSSemPend ((OS_SEM   *)&SemOfKey,               //等待该信号量 SemOfKey
 								       (OS_TICK   )0,                       //下面选择不等待，该参无效
 								       (OS_OPT    )OS_OPT_PEND_BLOCKING,//如果没信号量可用不等待
@@ -128,7 +127,7 @@ press key2 to resume the game
   void  AppTaskKey2 ( void * p_arg )
 {
 	OS_ERR      err;
-	OS_SEM_CTR  ctr;
+
 	CPU_SR_ALLOC();  //使用到临界段（在关/开中断时）时必需该宏，该宏声明和定义一个局部变
 									 //量，用于保存关中断前的 CPU 状态寄存器 SR（临界段关中断只需保存SR）
 									 //，开中断时将该值还原。
@@ -142,6 +141,7 @@ press key2 to resume the game
 		if( Key_Scan ( macKEY2_GPIO_PORT, macKEY2_GPIO_PIN, 1, & ucKey2Press ) ) //如果KEY2被单击
 		{
 #if 0
+		  OS_SEM_CTR  ctr;
 		  ctr = OSSemPost((OS_SEM  *)&SemOfKey,                                  //发布SemOfKey
 							        (OS_OPT   )OS_OPT_POST_ALL,                            //发布给所有等待任务
 							        (OS_ERR  *)&err);                                      //返回错误类型

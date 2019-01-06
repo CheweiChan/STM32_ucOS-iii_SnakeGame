@@ -169,7 +169,7 @@ static  void  BSPTaskCreate (void)
 {
 	OS_ERR  os_err;
 
-		//创建扫描任务
+    /*创建扫描任务 touch scan*/
     OSTaskCreate((OS_TCB     *)&AppTaskKeyScanTCB,             // 任务TCB                               
 		 (CPU_CHAR   *)"Key Scan", 										// 任务名称                             
 	         (OS_TASK_PTR ) AppTaskTouchScan,									// 任务函数指针                                
@@ -184,7 +184,7 @@ static  void  BSPTaskCreate (void)
 		 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),	//可选配置
 		 (OS_ERR     *)&os_err);					//错误代码
 
-
+    /* 创建软件定时器  count the time of total time  */ 
     OSTaskCreate((OS_TCB     *)&AppTaskTimerBaseTCB,             // 任务TCB                               
                  (CPU_CHAR   *)"GUI Base Test",                                // 任务名称                             
                  (OS_TASK_PTR ) AppTaskTmr_,                                   // 任务函数指针                                
@@ -198,17 +198,17 @@ static  void  BSPTaskCreate (void)
                  (void       *) 0,
                  (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),//可选配置
                  (OS_ERR     *)&os_err);    
-
+#if 0
 
  /* 创建多值信号量 SemOfKey */
     OSSemCreate((OS_SEM      *)&SemOfKey,    //指向信号量变量的指针
                 (CPU_CHAR    *)"SemOfKey",    //信号量的名字
                 (OS_SEM_CTR   )5,             //表示现有资源数目
                 (OS_ERR      *)&os_err);         //错误类型
-                          
+#endif                          
           
 
-/* 创建 AppTaskKey1 任务 */
+    /* 创建 AppTaskKey1 任务 suspend the game    */
     OSTaskCreate((OS_TCB     *)&AppTaskKey1TCB,                             //任务控制块地址
                  (CPU_CHAR   *)"App Task Key1",                             //任务名称
                  (OS_TASK_PTR ) AppTaskKey1,                                //任务函数
@@ -223,7 +223,7 @@ static  void  BSPTaskCreate (void)
                  (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), //任务选项
                  (OS_ERR     *)&os_err);                                       //返回错误类型
 
-        /* 创建 AppTaskKey2 任务 */
+    /* 创建 AppTaskKey2 任务 resume the game */
     OSTaskCreate((OS_TCB     *)&AppTaskKey2TCB,                             //任务控制块地址
                  (CPU_CHAR   *)"App Task Key2",                             //任务名称
                  (OS_TASK_PTR ) AppTaskKey2,                                //任务函数
@@ -238,7 +238,7 @@ static  void  BSPTaskCreate (void)
                  (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR), //任务选项
                  (OS_ERR     *)&os_err);                                       //返回错误类型
 
-   /* 创建软件定时器 */
+   /* 创建软件定时器  count the time of game stop  */ 
    OSTmrCreate ((OS_TMR              *)&my_tmr,             //软件定时器对象
                 (CPU_CHAR            *)"MySoftTimer",       //命名软件定时器
                 (OS_TICK              )10,                  //定时器初始值，依10Hz时基计算，即为1s
@@ -247,12 +247,7 @@ static  void  BSPTaskCreate (void)
                 (OS_TMR_CALLBACK_PTR  )TmrCallback,         //回调函数
                 (void                *)"Timer Over!",       //传递实参给回调函数
                 (OS_ERR              *)os_err);                //返回错误类型
-                              
-     /* 启动软件定时器 */                      
-      
-                    
-
-
+                                                       
 
 }
 
