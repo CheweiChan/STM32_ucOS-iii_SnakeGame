@@ -32,6 +32,7 @@ struct point food;
 extern CPU_INT32U tim_cnt;
 void KeyInit(void)
 {
+    GUI_SetColor(GUI_BLACK);
     GUI_DrawLine(0,40,240,40);
     GUI_DrawLine(60,40,60,0);
     GUI_DrawLine(120,40,120,0);
@@ -151,7 +152,6 @@ void Snack_Task(void) {
     GUI_SetBkColor(GUI_WHITE);
     GUI_Clear();
     Snake_Bodyinit();
-    GUI_SetColor(GUI_BLACK);//setting string color
     KeyInit();
   
 
